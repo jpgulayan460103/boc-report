@@ -37,6 +37,7 @@ class CreateReportsTable extends Migration
             $table->string('warfage')->nullable();
             $table->string('ipf')->nullable();
             $table->string('cds')->nullable();
+            $table->string('irs')->nullable();
             $table->string('total_landed_cost')->nullable();
             $table->string('vat')->nullable();
             $table->text('total')->nullable()->fulltext();

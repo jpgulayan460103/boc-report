@@ -17,7 +17,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        $reports = Report::orderBy('id', 'desc')->get();
+        return view('reports', [
+            'reports' => $reports
+        ]);
     }
 
     /**

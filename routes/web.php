@@ -14,12 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::middleware('auth')->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/report', [ReportController::class, 'store'])->name('report.store');
-Route::get('/report/{id}', [ReportController::class, 'show'])->name('report.show');
+Route::middleware('auth')->post('/reports', [ReportController::class, 'store'])->name('report.store');
+Route::middleware('auth')->get('/reports', [ReportController::class, 'index'])->name('report.index');
+Route::middleware('auth')->get('/reports/{id}', [ReportController::class, 'show'])->name('report.show');

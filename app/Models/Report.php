@@ -31,6 +31,7 @@ class Report extends Model
         'arrastre',
         'ipf',
         'cds',
+        'irs',
         'total_landed_cost',
         'vat',
         'total',
