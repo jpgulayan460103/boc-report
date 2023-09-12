@@ -15,7 +15,7 @@ class CreateReportImagesTable extends Migration
     {
         Schema::create('report_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('report_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('image_path');
             $table->timestamps();
         });

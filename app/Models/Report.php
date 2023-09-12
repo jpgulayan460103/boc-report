@@ -24,7 +24,6 @@ class Report extends Model
         'insurance',
         'dutiable_value',
         'exchange_rate',
-        'exchange_rate',
         'dutiable_value_dv',
         'duty_rate',
         'customs_duty',

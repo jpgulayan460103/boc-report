@@ -44,6 +44,7 @@ class ReportStoreRequest extends FormRequest
             'customs_duty' => ['required', 'numeric'],
             'brokerage_fee' => ['required', 'numeric'],
             'arrastre' => ['required', 'numeric'],
+            'warfage' => ['required', 'numeric'],
             'ipf' => ['required', 'numeric'],
             'cds' => ['required', 'numeric'],
             'total_landed_cost' => ['required', 'numeric'],
