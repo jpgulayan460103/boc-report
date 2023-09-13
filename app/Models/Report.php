@@ -29,6 +29,7 @@ class Report extends Model
         'customs_duty',
         'brokerage_fee',
         'arrastre',
+        'warfage',
         'ipf',
         'cds',
         'irs',

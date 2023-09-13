@@ -237,6 +237,7 @@
         <tr>
             <th>IRS</th>
             <td colspan="2">
+                <span>{{ $irs }}</span>
             </td>
         </tr>
         <tr>
