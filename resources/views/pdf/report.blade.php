@@ -94,9 +94,9 @@
 </htmlpageheader>
 
 <htmlpagefooter name="page-footer">
-    <div>
+    <div style="padding-bottom: 10pt;">
         <!-- <span style="top: 300pt;" class="fill-text">asdasd</span> -->
-        <img src="{{ public_path('images/pdf-footer.png') }}" alt="">
+        <img src="{{ public_path('images/pdf-footer-1.png') }}" alt="">
     </div>
 </htmlpagefooter>
 
@@ -141,12 +141,12 @@
         </tr>
         <tr>
             <th>Description:</th>
-            <td style="width: 37%; vertical-align: top">
-                As Declared <br><br>
+            <td style="width: 37%; vertical-align: top;height: 50pt">
+                As Declared <br>
                 <span>{{ $description_as_declared }}</span>
             </td>
-            <td style="width: 37%; vertical-align: top">
-                As Found <br><br>
+            <td style="width: 37%; vertical-align: top;height: 50pt">
+                As Found <br>
                 <span>{{ $description_as_found }}</span>
             </td>
         </tr>
@@ -253,15 +253,23 @@
             </td>
         </tr>
         <tr>
+            <th>Depreciation</th>
+            <td colspan="2">
+                <span>{{ $depreciation }}</span>
+            </td>
+        </tr>
+        <tr>
             <th>Total:<br><i style="font-size: 12; font-weight: normal;">(ESTIMATED VALUE/ FLOOR PRICE)</i></th>
             <td colspan="2">
-                <span>{{ $total }}</span>
+                <span>{{ $total }}</span><br>
+                <span><b>Proposed Floor Price: {{ $floor_price }}</b></span>
             </td>
         </tr>
         <tr>
             <th>Remarks:<br><i style="font-size: 12; font-weight: normal;">(Proposed Mode of Disposal)</i></th>
             <td colspan="2">
-                <span>{{ $remarks }}</span>
+                <span>{{ $remarks }}</span><br>
+                <span><b>{{ $mode_of_disposal }}</b></span>
             </td>
         </tr>
     </table>
@@ -274,15 +282,15 @@
         <tr>
             <td style="text-align: left;">
                 <b>{{ $prepared_by_name }}</b><br>
-                {{ $prepared_by_designation }}
+                <i>{{ $prepared_by_designation }}</i>
             </td>
             <td style="text-align: left;">
                 <b>{{ $reviewed_by_name }}</b><br>
-                {{ $reviewed_by_designation }}
+                <i>{{ $reviewed_by_designation }}</i>
             </td>
             <td style="text-align: left;">
                 <b>{{ $approved_name }}</b><br>
-                {{ $approved_designation }}
+                <i>{{ $approved_designation }}</i>
             </td>
         </tr>
     </table>

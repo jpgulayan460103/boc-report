@@ -43,6 +43,9 @@ class Report extends Model
         'reviewed_by_designation',
         'approved_name',
         'approved_designation',
+        'depreciation',
+        'floor_price',
+        'mode_of_disposal',
     ];
 
     public function reportImages() {

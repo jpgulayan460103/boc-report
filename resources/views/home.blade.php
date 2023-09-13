@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<report-form />
+<report-form :report-data="{{ $reports }}" />
 @endsection

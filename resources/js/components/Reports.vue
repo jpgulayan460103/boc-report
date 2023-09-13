@@ -13,7 +13,7 @@
                                 <th style="text-align: center;">Bill of Lading Number</th>
                                 <th style="text-align: center;">Date of Examination</th>
                                 <th style="text-align: center;">Description</th>
-                                <th style="text-align: center;">Actions</th>
+                                <th style="text-align: center; width: 200px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -26,7 +26,9 @@
                                 <td style="text-align: center;">{{ report.examination_date }}</td>
                                 <td style="text-align: center;">{{ report.description_as_declared }}</td>
                                 <td style="text-align: center;">
-                                    <button type="button" class="btn btn-success" style="width: 100%; margin-top: 30px;" @click="downloadReport(report)">Download</button>
+                                    <button type="button" class="btn btn-success" @click="downloadReport(report)"><i class="bi bi-download"></i></button>
+                                    <button type="button" class="btn btn-primary" @click="editReport(report)"><i class="bi bi-pencil-square"></i></button>
+                                    <button type="button" class="btn btn-danger" @click="deleteReport(report)"><i class="bi bi-trash"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -38,11 +40,23 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         props: ['reports'],
         methods: {
             downloadReport(report){
                 window.open(`/reports/${report.id}`, "", "width=900,height=900");
+            },
+            editReport(report){
+                window.location = `/reports/${report.id}/edit`;
+            },
+            deleteReport(report){
+                if(confirm("Are you sure to delete")){
+                    axios.delete(`/reports/${report.id}`)
+                    .then(res => {
+                        window.location.reload();
+                    });
+                }
             },
         },
         mounted() {

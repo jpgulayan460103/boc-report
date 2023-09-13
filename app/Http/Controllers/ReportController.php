@@ -28,9 +28,12 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, $id)
     {
-        //
+        $reports = Report::findOrFail($id);
+        return view('home', [
+            'reports' => $reports
+        ]);
     }
 
     /**
@@ -96,10 +99,20 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ReportStoreRequest $request, $id)
     {
-        DB::transaction(function() use ($request, $id){
-            $report = Report::find($id)->update($request->all());
+        return DB::transaction(function() use ($request, $id){
+            $report = Report::findOrFail($id)->update($request->all());
+            $files = $request->file('reportImages');
+            if($files != array()){
+                foreach ($files as $file) {
+                    $image_path = $file->store("public/{$report->id}");
+                    $report->reportImages()->create([
+                        'image_path' => $image_path
+                    ]);
+                }
+            }
+            return $report;
         });
     }
 
@@ -109,9 +122,9 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        //
+        Report::findOrFail($id)->delete();
     }
 
     public function autocomplete(Request $request, $field)

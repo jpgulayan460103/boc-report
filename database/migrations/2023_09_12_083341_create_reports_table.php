@@ -40,7 +40,10 @@ class CreateReportsTable extends Migration
             $table->string('irs')->nullable();
             $table->string('total_landed_cost')->nullable();
             $table->string('vat')->nullable();
+            $table->string('depreciation')->nullable();
             $table->text('total')->nullable()->fulltext();
+            $table->string('floor_price')->nullable();
+            $table->string('mode_of_disposal')->nullable();
             $table->text('remarks')->nullable()->fulltext();
             $table->string('prepared_by_name')->nullable()->fulltext();
             $table->string('prepared_by_designation')->nullable()->fulltext();

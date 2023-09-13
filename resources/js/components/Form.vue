@@ -6,8 +6,9 @@
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Identification" :errors="formErrors.identification">
-                                <!-- <input type="text" v-model="formData.identification" class="form-control" :class="formErrors.identification ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.identification" class="form-control" :class="formErrors.identification ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.identification ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.identification"
@@ -17,8 +18,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Consignee" :errors="formErrors.consignee">
-                                <!-- <input type="text" v-model="formData.consignee" class="form-control" :class="formErrors.consignee ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.consignee" class="form-control" :class="formErrors.consignee ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.consignee ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.consignee"
@@ -28,8 +30,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Location" :errors="formErrors.location">
-                                <!-- <input type="text" v-model="formData.location" class="form-control" :class="formErrors.location ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.location" class="form-control" :class="formErrors.location ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.location ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.location"
@@ -99,8 +102,9 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Exchange Rate" :errors="formErrors.exchange_rate">
-                                <!-- <input type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.exchange_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.exchange_rate"
@@ -115,8 +119,9 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Duty Rate" :errors="formErrors.duty_rate">
-                                <!-- <input type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.duty_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.duty_rate"
@@ -163,14 +168,19 @@
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.irs" class="form-control" :class="formErrors.irs ? 'is-invalid' : ''">
                             </form-item>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <form-item label="Total Landed Cost" :errors="formErrors.total_landed_cost">
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.total_landed_cost" class="form-control" :class="formErrors.total_landed_cost ? 'is-invalid' : ''">
                             </form-item>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <form-item label="VAT" :errors="formErrors.vat">
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.vat" class="form-control" :class="formErrors.vat ? 'is-invalid' : ''">
+                            </form-item>
+                        </div>
+                        <div class="col-md-2">
+                            <form-item label="Depreciation" :errors="formErrors.depreciation">
+                                <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.depreciation" class="form-control" :class="formErrors.depreciation ? 'is-invalid' : ''">
                             </form-item>
                         </div>
                     </div>
@@ -181,16 +191,29 @@
                             </form-item>
                         </div>
                         <div class="col-md-6">
-                            <form-item label="Remarks (Proposed Mode of Disposal)" :errors="formErrors.remarks">
+                            <form-item label="Floor Price" :errors="formErrors.floor_price">
+                                <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.floor_price" class="form-control" :class="formErrors.floor_price ? 'is-invalid' : ''">
+                            </form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form-item label="Remarks" :errors="formErrors.remarks">
                                 <textarea v-model="formData.remarks" class="form-control" :class="formErrors.remarks ? 'is-invalid' : ''" />
+                            </form-item>
+                        </div>
+                        <div class="col-md-6">
+                            <form-item label="Proposed Mode of Disposal" :errors="formErrors.mode_of_disposal">
+                                <textarea v-model="formData.mode_of_disposal" class="form-control" :class="formErrors.mode_of_disposal ? 'is-invalid' : ''" />
                             </form-item>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Prepared by" :errors="formErrors.prepared_by_name">
-                                <!-- <input type="text" v-model="formData.prepared_by_name" class="form-control" :class="formErrors.prepared_by_name ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.prepared_by_name" class="form-control" :class="formErrors.prepared_by_name ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.prepared_by_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.prepared_by_name"
@@ -200,8 +223,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Reviewed by" :errors="formErrors.reviewed_by_name">
-                                <!-- <input type="text" v-model="formData.reviewed_by_name" class="form-control" :class="formErrors.reviewed_by_name ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.reviewed_by_name" class="form-control" :class="formErrors.reviewed_by_name ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.reviewed_by_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.reviewed_by_name"
@@ -211,8 +235,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Approved by" :errors="formErrors.approved_name">
-                                <!-- <input type="text" v-model="formData.approved_name" class="form-control" :class="formErrors.approved_name ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.approved_name" class="form-control" :class="formErrors.approved_name ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.approved_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.approved_name"
@@ -224,8 +249,9 @@
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.prepared_by_designation">
-                                <!-- <input type="text" v-model="formData.prepared_by_designation" class="form-control" :class="formErrors.prepared_by_designation ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.prepared_by_designation" class="form-control" :class="formErrors.prepared_by_designation ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.prepared_by_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.prepared_by_designation"
@@ -235,8 +261,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.reviewed_by_designation">
-                                <!-- <input type="text" v-model="formData.reviewed_by_designation" class="form-control" :class="formErrors.reviewed_by_designation ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.reviewed_by_designation" class="form-control" :class="formErrors.reviewed_by_designation ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.reviewed_by_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.reviewed_by_designation"
@@ -246,8 +273,9 @@
                         </div>
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.approved_designation">
-                                <!-- <input type="text" v-model="formData.approved_designation" class="form-control" :class="formErrors.approved_designation ? 'is-invalid' : ''"> -->
+                                <input v-if="formType == 'edit'" type="text" v-model="formData.approved_designation" class="form-control" :class="formErrors.approved_designation ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
+                                    v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.approved_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.approved_designation"
@@ -286,7 +314,7 @@
 <script>
     import Card from './Card.vue';
     import FormItem from './FormItem.vue';
-    import { debounce, isEmpty } from 'lodash';
+    import { debounce, isEmpty, cloneDeep } from 'lodash';
     import { vMaska } from "maska"
     import axios from 'axios';
     import { TypeaheadAutocomplete } from "typeahead-autocomplete";
@@ -308,6 +336,9 @@
 
     export default {
         directives: { maska: vMaska },
+        props: [
+            'reportData',
+        ],
         components: {
             Card,
             FormItem,
@@ -353,6 +384,13 @@
         },
         methods: {
             submitForm: debounce(function(){
+                if(this.formType == 'edit'){
+                    this.updateReport();
+                }else{
+                    this.createReport();
+                }
+            }, 500),
+            createReport(){
                 this.submit = true;
                 let formData = new FormData();
                 for (let index = 0; index < this.reportImages.length; index++) {
@@ -378,7 +416,34 @@
                     this.submit = false;
                     this.formErrors = err.response.data.errors;
                 });
-            }, 500),
+            },
+            updateReport(){
+                this.submit = true;
+                let formData = new FormData();
+                for (let index = 0; index < this.reportImages.length; index++) {
+                    formData.append(`reportImages[${index}]`, this.reportImages[index]);
+                }
+                for (const key in this.formData) {
+                    if (this.formData.hasOwnProperty(key)) {
+                        formData.append(key, this.formData[key]);
+                    }
+                }
+                axios.post(`/update/reports/${this.reportData.id}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                })
+                .then(res => {
+                    this.submit = false;
+                    this.report = res.data;
+                    alert('You have updated a report');
+                    window.location = "/reports"
+                })
+                .catch(err => {
+                    this.submit = false;
+                    this.formErrors = err.response.data.errors;
+                });
+            },
             selectedImages(){
                 this.images = [];
                 this.reportImages = this.$refs.reportImages.files;
@@ -390,16 +455,26 @@
                 }
             },
             clearForm(){
-                if(confirm('Are you sure you want to clear form')){
-                    this.formData = {};
-                    this.formErrors = {};
-                    this.images = [];
-                    this.reportImages = [];
-                    this.$refs.formRef.reset();
+                if(this.formType == 'create'){
+                    if(confirm('Are you sure you want to clear form')){
+                        this.formData = {};
+                        this.formErrors = {};
+                        this.images = [];
+                        this.reportImages = [];
+                        this.$refs.formRef.reset();
+                    }
+                }else{
+                    if(confirm('Are you sure you want to clear form')){
+                        window.location = "/";
+                    }
                 }
             },
             downloadReport(){
-                window.open(`/reports/${this.report.id}`, "", "width=900,height=900");
+                if(this.formType == 'create'){
+                    window.open(`/reports/${this.report.id}`, "", "width=900,height=900");
+                }else{
+                    window.open(`/reports/${this.reportData.id}`, "", "width=900,height=900");
+                }
             },
             getAutocompleteData: debounce(function(field, e){
                 if(e){
@@ -421,7 +496,11 @@
             },
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component mounted.');
+            if(!isEmpty(this.reportData)){
+                this.formData = cloneDeep(this.reportData);
+                this.formType = "edit";
+            }
         }
     }
 </script>
