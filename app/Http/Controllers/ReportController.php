@@ -39,7 +39,7 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReportStoreRequest $request)
     {
         return DB::transaction(function() use ($request){
             $report = Report::create($request->all());
@@ -112,5 +112,19 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+
+    public function autocomplete(Request $request, $field)
+    {
+        $stringQuery = $request->q;
+        $reports = Report::where($field, 'like', "%$stringQuery%")->select($field)->distinct()->orderBy($field)->limit(20)->pluck($field);
+        $formatted = [];
+        foreach ($reports as $report) {
+            $formatted[] = [
+                'text' => $report,
+                'value' => $report,
+            ];
+        }
+        return $formatted;
     }
 }

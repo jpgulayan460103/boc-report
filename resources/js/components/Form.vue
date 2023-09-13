@@ -6,17 +6,35 @@
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Identification" :errors="formErrors.identification">
-                                <input type="text" v-model="formData.identification" class="form-control" :class="formErrors.identification ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.identification" class="form-control" :class="formErrors.identification ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.identification ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.identification"
+                                    @change="getAutocompleteData('identification', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Consignee" :errors="formErrors.consignee">
-                                <input type="text" v-model="formData.consignee" class="form-control" :class="formErrors.consignee ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.consignee" class="form-control" :class="formErrors.consignee ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.consignee ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.consignee"
+                                    @change="getAutocompleteData('consignee', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Location" :errors="formErrors.location">
-                                <input type="text" v-model="formData.location" class="form-control" :class="formErrors.location ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.location" class="form-control" :class="formErrors.location ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.location ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.location"
+                                    @change="getAutocompleteData('location', $event)"
+                                />
                             </form-item>
                         </div>
                     </div>
@@ -81,7 +99,13 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Exchange Rate" :errors="formErrors.exchange_rate">
-                                <input type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.exchange_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.exchange_rate"
+                                    @change="getAutocompleteData('exchange_rate', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-3">
@@ -91,7 +115,13 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Duty Rate" :errors="formErrors.duty_rate">
-                                <input type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.duty_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.duty_rate"
+                                    @change="getAutocompleteData('duty_rate', $event)"
+                                />
                             </form-item>
                         </div>
                     </div>
@@ -159,34 +189,70 @@
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Prepared by" :errors="formErrors.prepared_by_name">
-                                <input type="text" v-model="formData.prepared_by_name" class="form-control" :class="formErrors.prepared_by_name ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.prepared_by_name" class="form-control" :class="formErrors.prepared_by_name ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.prepared_by_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.prepared_by_name"
+                                    @change="getAutocompleteData('prepared_by_name', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Reviewed by" :errors="formErrors.reviewed_by_name">
-                                <input type="text" v-model="formData.reviewed_by_name" class="form-control" :class="formErrors.reviewed_by_name ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.reviewed_by_name" class="form-control" :class="formErrors.reviewed_by_name ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.reviewed_by_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.reviewed_by_name"
+                                    @change="getAutocompleteData('reviewed_by_name', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Approved by" :errors="formErrors.approved_name">
-                                <input type="text" v-model="formData.approved_name" class="form-control" :class="formErrors.approved_name ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.approved_name" class="form-control" :class="formErrors.approved_name ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.approved_name ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.approved_name"
+                                    @change="getAutocompleteData('approved_name', $event)"
+                                />
                             </form-item>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.prepared_by_designation">
-                                <input type="text" v-model="formData.prepared_by_designation" class="form-control" :class="formErrors.prepared_by_designation ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.prepared_by_designation" class="form-control" :class="formErrors.prepared_by_designation ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.prepared_by_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.prepared_by_designation"
+                                    @change="getAutocompleteData('prepared_by_designation', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.reviewed_by_designation">
-                                <input type="text" v-model="formData.reviewed_by_designation" class="form-control" :class="formErrors.reviewed_by_designation ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.reviewed_by_designation" class="form-control" :class="formErrors.reviewed_by_designation ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.reviewed_by_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.reviewed_by_designation"
+                                    @change="getAutocompleteData('reviewed_by_designation', $event)"
+                                />
                             </form-item>
                         </div>
                         <div class="col-md-4">
                             <form-item label="Designation" :errors="formErrors.approved_designation">
-                                <input type="text" v-model="formData.approved_designation" class="form-control" :class="formErrors.approved_designation ? 'is-invalid' : ''">
+                                <!-- <input type="text" v-model="formData.approved_designation" class="form-control" :class="formErrors.approved_designation ? 'is-invalid' : ''"> -->
+                                <typeahead-autocomplete
+                                    :showNoData="false"
+                                    :inputClass="formErrors.approved_designation ? 'type-head form-control is-invalid' : 'type-head form-control'"
+                                    :items="autocompletes.approved_designation"
+                                    @change="getAutocompleteData('approved_designation', $event)"
+                                />
                             </form-item>
                         </div>
                     </div>
@@ -223,6 +289,7 @@
     import { debounce, isEmpty } from 'lodash';
     import { vMaska } from "maska"
     import axios from 'axios';
+    import { TypeaheadAutocomplete } from "typeahead-autocomplete";
 
     const options = {
         preProcess: val => val.replace(/[$,]/g, ''),
@@ -243,7 +310,8 @@
         directives: { maska: vMaska },
         components: {
             Card,
-            FormItem
+            FormItem,
+            TypeaheadAutocomplete
         },
         data() {
             return {
@@ -254,6 +322,19 @@
                 formErrors: {},
                 images: [],
                 reportImages: [],
+                autocompletes: {
+                    identification: [],
+                    consignee: [],
+                    location: [],
+                    exchange_rate: [],
+                    duty_rate: [],
+                    prepared_by_name: [],
+                    reviewed_by_name: [],
+                    approved_name: [],
+                    prepared_by_designation: [],
+                    reviewed_by_designation: [],
+                    approved_designation: [],
+                },
                 options: {
                     preProcess: val => val.replace(/[$,]/g, ''),
                     postProcess: val => {
@@ -320,6 +401,21 @@
             downloadReport(){
                 window.open(`/reports/${this.report.id}`, "", "width=900,height=900");
             },
+            getAutocompleteData: debounce(function(field, e){
+                if(e){
+                    this.formData[field] = e.text;
+                    axios.get(`/api/autocompletes/${field}`, {
+                        params: {
+                            q: e.text
+                        }
+                    })
+                    .then(res => {
+                        this.autocompletes[field] = res.data;
+                    })
+                    .catch(err => {})
+                    ;
+                }
+            }, 100),
             isEmpty(val){
                 return isEmpty(val);
             },
@@ -329,3 +425,8 @@
         }
     }
 </script>
+<style>
+.type-head{
+    height: 35.02px !important;
+}
+</style>

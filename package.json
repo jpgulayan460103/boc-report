@@ -25,6 +25,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "maska": "^2.1.10"
+        "maska": "^2.1.10",
+        "typeahead-autocomplete": "^1.0.9"
     }
 }
