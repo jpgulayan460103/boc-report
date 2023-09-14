@@ -102,14 +102,15 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Exchange Rate" :errors="formErrors.exchange_rate">
-                                <input v-if="formType == 'edit'" type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''">
+                                <!-- <input v-if="formType == 'edit'" type="text" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
                                     v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.exchange_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.exchange_rate"
                                     @change="getAutocompleteData('exchange_rate', $event)"
-                                />
+                                /> -->
+                                <input v-maska data-maska="0.9999" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.exchange_rate" class="form-control" :class="formErrors.exchange_rate ? 'is-invalid' : ''">
                             </form-item>
                         </div>
                         <div class="col-md-3">
@@ -119,14 +120,15 @@
                         </div>
                         <div class="col-md-3">
                             <form-item label="Duty Rate" :errors="formErrors.duty_rate">
-                                <input v-if="formType == 'edit'" type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''">
+                                <!-- <input v-if="formType == 'edit'" type="text" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''">
                                 <typeahead-autocomplete
                                     v-else
                                     :showNoData="false"
                                     :inputClass="formErrors.duty_rate ? 'type-head form-control is-invalid' : 'type-head form-control'"
                                     :items="autocompletes.duty_rate"
                                     @change="getAutocompleteData('duty_rate', $event)"
-                                />
+                                /> -->
+                                <input v-maska:[options] data-maska="0" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.duty_rate" class="form-control" :class="formErrors.duty_rate ? 'is-invalid' : ''">
                             </form-item>
                         </div>
                     </div>
@@ -141,14 +143,19 @@
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.brokerage_fee" class="form-control" :class="formErrors.brokerage_fee ? 'is-invalid' : ''">
                             </form-item>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <form-item label="Arrastre" :errors="formErrors.arrastre">
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.arrastre" class="form-control" :class="formErrors.arrastre ? 'is-invalid' : ''">
                             </form-item>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <form-item label="Wharfage" :errors="formErrors.warfage">
                                 <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.warfage" class="form-control" :class="formErrors.warfage ? 'is-invalid' : ''">
+                            </form-item>
+                        </div>
+                        <div class="col-md-2">
+                            <form-item label="Bank Charge" :errors="formErrors.bank_charge">
+                                <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.bank_charge" class="form-control" :class="formErrors.bank_charge ? 'is-invalid' : ''">
                             </form-item>
                         </div>
                     </div>
@@ -187,6 +194,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <form-item label="Total (ESTIMATED VALUE/ FLOOR PRICE)" :errors="formErrors.total">
+                                <!-- <input v-maska:[options] data-maska="0.99" data-maska-tokens="0:\d:multiple|9:\d:optional" v-model="formData.total" class="form-control" :class="formErrors.total ? 'is-invalid' : ''"> -->
                                 <textarea v-model="formData.total" class="form-control" :class="formErrors.total ? 'is-invalid' : ''" />
                             </form-item>
                         </div>
@@ -348,7 +356,11 @@
             return {
                 submit: false,
                 report: {},
-                formData: {},
+                formData: {
+                    ipf: 1000,
+                    cds: 250,
+                    irs: 30,
+                },
                 formType: "create",
                 formErrors: {},
                 images: [],
@@ -494,6 +506,16 @@
             isEmpty(val){
                 return isEmpty(val);
             },
+            currencyToNumber(value){
+                if(typeof value == "string"){
+                    return Number(value.replace(/[^0-9.-]+/g,""));
+                }
+                return 0;
+            },
+            roundAmount(num){
+                const rounded = Math.round((num + Number.EPSILON) * 100) / 100;
+                return rounded;
+            }
         },
         mounted() {
             console.log('Component mounted.');
@@ -501,6 +523,100 @@
                 this.formData = cloneDeep(this.reportData);
                 this.formType = "edit";
             }
+        },
+        computed: {
+            insurance(){
+                const customs_value = this.formData.customs_value;
+                const insurance = this.currencyToNumber(customs_value) * 0.04
+                return this.roundAmount(insurance);
+            },
+            dutiable_value(){
+                const customs_value = this.currencyToNumber(this.formData.customs_value);
+                const freight = this.currencyToNumber(this.formData.freight);
+                const insurance = this.currencyToNumber(this.formData.insurance);
+                const dutiable_value = customs_value + freight + insurance;
+                return this.roundAmount(dutiable_value);
+            },
+            dutiable_value_dv(){
+                const dutiable_value = this.currencyToNumber(this.formData.dutiable_value);
+                const exchange_rate = this.currencyToNumber(this.formData.exchange_rate);
+                const dutiable_value_dv = dutiable_value * exchange_rate;
+                return this.roundAmount(dutiable_value_dv);
+            },
+            customs_duty(){
+                const dutiable_value_dv = this.currencyToNumber(this.formData.dutiable_value_dv);
+                const duty_rate = this.currencyToNumber(this.formData.duty_rate);
+                const customs_duty = dutiable_value_dv * (duty_rate / 100);
+                return this.roundAmount(customs_duty);
+            },
+            brokerage_fee(){
+                const dutiable_value_dv = this.currencyToNumber(this.formData.dutiable_value_dv);
+                const num1 = 200000;
+                const num2 = 0.00125;
+                const num3 = 5300;
+                const brokerage_fee = (dutiable_value_dv - num1) * (num2) + num3;
+                return this.roundAmount(brokerage_fee);
+            },
+            bank_charge(){
+                const dutiable_value_dv = this.currencyToNumber(this.formData.dutiable_value_dv);
+                const num2 = 0.00125;
+                const bank_charge = dutiable_value_dv * num2;
+                return this.roundAmount(bank_charge);
+            },
+            total_landed_cost(){
+                const dutiable_value_dv = this.currencyToNumber(this.formData.dutiable_value_dv);
+                const customs_duty = this.currencyToNumber(this.formData.customs_duty);
+                const brokerage_fee = this.currencyToNumber(this.formData.brokerage_fee);
+                const cds = this.currencyToNumber(this.formData.cds);
+                const irs = this.currencyToNumber(this.formData.irs);
+                const ipf = this.currencyToNumber(this.formData.ipf);
+                const bank_charge = this.currencyToNumber(this.formData.bank_charge);
+                const total_landed_cost = (dutiable_value_dv + customs_duty + brokerage_fee + cds + irs + ipf + bank_charge);
+                return this.roundAmount(total_landed_cost);
+            },
+            vat(){
+                const total_landed_cost = this.currencyToNumber(this.formData.total_landed_cost);
+                const vat = total_landed_cost * 0.12;
+                return this.roundAmount(vat);
+            },
+            total(){
+                const customs_duty = this.currencyToNumber(this.formData.customs_duty);
+                const vat = this.vat;
+                const cds = this.currencyToNumber(this.formData.cds);
+                const irs = this.currencyToNumber(this.formData.irs);
+                const ipf = this.currencyToNumber(this.formData.ipf);
+                const total = (customs_duty + vat + cds + irs + ipf)
+                return this.roundAmount(total);
+            },
+        },
+        watch: {
+            insurance(val){
+                this.formData = {...this.formData, insurance: val};
+            },
+            dutiable_value(val){
+                this.formData = {...this.formData, dutiable_value: val};
+            },
+            dutiable_value_dv(val){
+                this.formData = {...this.formData, dutiable_value_dv: val};
+            },
+            customs_duty(val){
+                this.formData = {...this.formData, customs_duty: val};
+            },
+            brokerage_fee(val){
+                this.formData = {...this.formData, brokerage_fee: val};
+            },
+            bank_charge(val){
+                this.formData = {...this.formData, bank_charge: val};
+            },
+            total_landed_cost(val){
+                this.formData = {...this.formData, total_landed_cost: val};
+            },
+            vat(val){
+                this.formData = {...this.formData, vat: val};
+            },
+            total(val){
+                this.formData = {...this.formData, total: val};
+            },
         }
     }
 </script>
